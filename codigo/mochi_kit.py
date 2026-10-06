@@ -37,12 +37,11 @@ def _eyes(expr, blink):
 
 
 def _mouth(expr, mouth_open=0.0):
-    if mouth_open > 0.05:  # miau: boca aberta em "o", com língua
+    if mouth_open > 0.05:  # miau minimalista: a boca "w" abre num pequeno triângulo escuro
         o = min(mouth_open, 1.0)
-        rx, ry = 7 + 6 * o, 4 + 10 * o
-        cy = 203 + ry * 0.55
-        return (f'<ellipse cx="190" cy="{cy:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="#C2414E" stroke="{INK}" stroke-width="2.5"/>'
-                f'<ellipse cx="190" cy="{cy + ry * 0.45:.1f}" rx="{rx * 0.6:.1f}" ry="{ry * 0.4:.1f}" fill="#F58FA0"/>')
+        drop = 3 + 7 * o
+        return (f'<path d="M180 203 Q185 204 190 202 Q195 204 200 203 Q195 {203 + drop:.1f} 190 {204 + drop:.1f} '
+                f'Q185 {203 + drop:.1f} 180 203 Z" fill="{INK}"/>')
     if expr == "happy":
         return f'<path d="M176 202 Q190 224 204 202 Z" fill="#C2414E" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
     if expr == "angry":
