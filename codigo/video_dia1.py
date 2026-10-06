@@ -191,6 +191,17 @@ FLOOR = [(0, "#E9C9A8"), (3.8, "#E9C9A8"), (4.2, "#BFE0C8"), (7.6, "#BFE0C8"), (
          (11.6, "#1E2742"), (12.3, "#F2C79A")]
 
 
+MEOWS = [0.7, 12.5]   # mesmos tempos do sfx_meow em musica_dia1.py
+MEOW_LEN = 0.55
+
+
+def meow_open(t):
+    for t0 in MEOWS:
+        if t0 <= t <= t0 + MEOW_LEN:
+            return math.sin(math.pi * (t - t0) / MEOW_LEN) ** 0.8
+    return 0.0
+
+
 def mochi_state(t):
     if t < 2.2:
         expr = "normal"
@@ -231,7 +242,7 @@ def frame_svg(t):
         f'<ellipse cx="540" cy="1640" rx="640" ry="190" fill="{floor}"/>',
         coins(t),
         f'<ellipse cx="540" cy="1575" rx="{shadow_w:.0f}" ry="34" fill="#000" opacity="0.13"/>',
-        f'<g transform="translate({mx:.1f},{my:.1f}) scale({scale:.3f})">{mochi(expr, blink)}</g>',
+        f'<g transform="translate({mx:.1f},{my:.1f}) scale({scale:.3f})">{mochi(expr, blink, mouth_open=meow_open(t))}</g>',
         thought_bubble(t, 2.0, 3.9),
         zzz(t),
         sparkles(t),

@@ -36,7 +36,13 @@ def _eyes(expr, blink):
     return eyes
 
 
-def _mouth(expr):
+def _mouth(expr, mouth_open=0.0):
+    if mouth_open > 0.05:  # miau: boca aberta em "o", com língua
+        o = min(mouth_open, 1.0)
+        rx, ry = 7 + 6 * o, 4 + 10 * o
+        cy = 203 + ry * 0.55
+        return (f'<ellipse cx="190" cy="{cy:.1f}" rx="{rx:.1f}" ry="{ry:.1f}" fill="#C2414E" stroke="{INK}" stroke-width="2.5"/>'
+                f'<ellipse cx="190" cy="{cy + ry * 0.45:.1f}" rx="{rx * 0.6:.1f}" ry="{ry * 0.4:.1f}" fill="#F58FA0"/>')
     if expr == "happy":
         return f'<path d="M176 202 Q190 224 204 202 Z" fill="#C2414E" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
     if expr == "angry":
@@ -54,7 +60,7 @@ def _headphones():
     )
 
 
-def mochi(expr="normal", blink=False, headphones=False):
+def mochi(expr="normal", blink=False, headphones=False, mouth_open=0.0):
     """Devolve o Mochi como grupo SVG num espaco de 380x400."""
     blush_op = "1" if expr != "angry" else "0"
     angry_tint = '<ellipse cx="190" cy="140" rx="90" ry="40" fill="#E5533D" opacity="0.18"/>' if expr == "angry" else ""
@@ -76,7 +82,7 @@ def mochi(expr="normal", blink=False, headphones=False):
 {_eyes(expr, blink)}
 <ellipse cx="125" cy="198" rx="14" ry="8" fill="{BLUSH}" opacity="{blush_op}"/><ellipse cx="255" cy="198" rx="14" ry="8" fill="{BLUSH}" opacity="{blush_op}"/>
 <polygon points="182,186 198,186 190,195" fill="{NOSE}"/>
-{_mouth(expr)}
+{_mouth(expr, mouth_open)}
 <path d="M100 190 L60 184 M100 200 L62 204 M280 190 L320 184 M280 200 L318 204" stroke="#C9703A" stroke-width="2" stroke-linecap="round"/>
 <rect x="112" y="228" width="156" height="24" rx="12" fill="{RED}"/><rect x="200" y="240" width="22" height="48" rx="8" fill="{RED_DARK}"/>
 {_headphones() if headphones else ""}
