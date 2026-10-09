@@ -19,6 +19,16 @@ def _eyes(expr, blink):
             f'<path d="M134 162 Q148 172 162 162" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
             f'<path d="M218 162 Q232 172 246 162" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
         )
+    if expr == "shock":
+        return (
+            f'<circle cx="148" cy="160" r="19" fill="#fff" stroke="{INK}" stroke-width="4"/>'
+            f'<circle cx="232" cy="160" r="19" fill="#fff" stroke="{INK}" stroke-width="4"/>'
+            f'<circle cx="148" cy="162" r="6" fill="{INK}"/><circle cx="232" cy="162" r="6" fill="{INK}"/>'
+        )
+    if expr == "ko":
+        x = lambda cx: (f'<path d="M{cx-11} 151 L{cx+11} 173 M{cx+11} 151 L{cx-11} 173" '
+                        f'stroke="{INK}" stroke-width="5" stroke-linecap="round"/>')
+        return x(148) + x(232)
     if expr == "happy":
         return (
             f'<path d="M134 166 Q148 148 162 166" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>'
@@ -46,6 +56,10 @@ def _mouth(expr, mouth_open=0.0):
         return f'<path d="M176 202 Q190 224 204 202 Z" fill="#C2414E" stroke="{INK}" stroke-width="2.5" stroke-linejoin="round"/>'
     if expr == "angry":
         return f'<path d="M178 210 Q190 200 202 210" fill="none" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>'
+    if expr == "shock":
+        return f'<ellipse cx="190" cy="210" rx="7" ry="9" fill="{INK}"/>'
+    if expr == "ko":
+        return f'<path d="M180 208 Q185 202 190 208 Q195 214 200 208" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linecap="round"/>'
     if expr == "eat":
         return f'<ellipse cx="190" cy="208" rx="9" ry="7" fill="#C2414E" stroke="{INK}" stroke-width="2.5"/>'
     return f'<path d="M178 202 Q184 210 190 202 Q196 210 202 202" fill="none" stroke="{INK}" stroke-width="2.5" stroke-linecap="round"/>'
