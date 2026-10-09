@@ -18,7 +18,7 @@ DIR = os.path.dirname(os.path.abspath(__file__))
 FRAMES = os.path.join(DIR, "frames_voo")
 os.makedirs(FRAMES, exist_ok=True)
 FONT = "DejaVu Sans"
-PRICE = 900
+PRICE = 1400
 S = 1.9                      # escala do Mochi
 MEOW_LEN = 0.55
 
@@ -69,7 +69,7 @@ def big_phone(t):
     value = int(PRICE * u ** 2.2 / 10) * 10
     landed = t >= 4.0
     pulse = 1 + (0.25 * math.exp(-(t - 4.0) * 7) * math.cos((t - 4.0) * 20) if landed else 0)
-    price = f"{PRICE}€+" if landed else f"{value}€"
+    price = f"{PRICE}€" if landed else f"{value}€"
     color = "#D8343A" if landed else "#2B2B2B"
     pop = 0.85 + 0.15 * spring(t - 2.35)
     return (f'<g opacity="{op:.3f}" transform="translate(540,690) scale({pop:.3f}) translate(-540,-690)">'
@@ -153,7 +153,7 @@ def frame_svg(t):
         stars(t, hx, hy),
         big_phone(t),
         card(title_op, "Eu a ver o preço", "do voo para o Japão"),
-        card(fade(t, 4.6, 6.6), "O meu saldo: 0€", "faltam só 900€", s1=72),
+        card(fade(t, 4.6, 6.6), "O meu saldo: 0€", f"faltam só {PRICE}€", s1=72),
         card(fade(t, 6.8, 9.3), "Plano B:", "ir a nado", s1=80, s2=64),
         '</g>',
     ]
