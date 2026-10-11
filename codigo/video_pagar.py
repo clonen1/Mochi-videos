@@ -1,7 +1,7 @@
 """Vídeo 'Eu a tentar pagar o voo para o Japão' (1080x1920, 10 s, 30 fps), em loop.
 
 0.15-2.3 o Mochi põe no balcão: meia, bola de lã, espinha, botão (cada um +0€)
-2.6-4.6 'Isto tudo vale 0€' / faltam 1400€ | 4.7-6.6 'Aceitam ronrons?'
+2.6-4.6 'Isto tudo vale 0€' / o voo custa bem mais | 4.7-6.6 'Aceitam ronrons?'
 6.6 RECUSADO | 7.95-9 atira tudo ao chão, como um bom gato | 9.35-10 início
 """
 import math
@@ -10,7 +10,6 @@ from mochi_cena import W, H, FONT, card, clamp, ease, fade, main, meow_open, spr
 from mochi_kit import mochi
 from musica_pagar import ITEM_T, MEOWS, TOTAL
 
-PRICE = 1400
 S = 2.0
 COUNTER = 1520
 ITEM_X = [210, 390, 700, 880]
@@ -106,8 +105,8 @@ def ticket_svg(t):
     return (f'<rect x="230" y="{TY}" width="620" height="390" rx="40" fill="#2B2B2B"/>'
             f'<rect x="250" y="{TY + 20}" width="580" height="350" rx="28" fill="#FFFFFF"/>'
             f'<rect x="250" y="{TY + 20}" width="580" height="88" rx="28" fill="#3F6FB0"/><rect x="250" y="{TY + 78}" width="580" height="30" fill="#3F6FB0"/>'
-            f'<text x="540" y="{TY + 80}" font-family="{FONT}" font-weight="bold" font-size="42" fill="#FFFFFF" text-anchor="middle">Lisboa → Tóquio</text>'
-            f'<text x="540" y="{TY + 230}" font-family="{FONT}" font-weight="bold" font-size="120" fill="#2B2B2B" text-anchor="middle">{PRICE}€</text>'
+            f'<text x="540" y="{TY + 80}" font-family="{FONT}" font-weight="bold" font-size="42" fill="#FFFFFF" text-anchor="middle">Voo para o Japão</text>'
+            f'<text x="540" y="{TY + 230}" font-family="{FONT}" font-weight="bold" font-size="120" fill="#2B2B2B" text-anchor="middle">€€€€</text>'
             f'<text x="540" y="{TY + 330}" font-family="{FONT}" font-weight="bold" font-size="52" fill="#D8343A" text-anchor="middle">Pago: 0€</text>'
             + stamp)
 
@@ -144,7 +143,7 @@ def frame_svg(t):
         items_svg(t),
         paw_svg(t, my),
         card(title_op, "Eu a tentar pagar", "o voo para o Japão", s1=68, s2=60, c1="#2B2B2B"),
-        card(fade(t, 2.6, 4.6), "Isto tudo vale 0€", f"Faltam {PRICE}€", s1=68, s2=60),
+        card(fade(t, 2.6, 4.6), "Isto tudo vale 0€", "O voo custa bem mais", s1=68, s2=60),
         card(fade(t, 4.7, 6.55), "Aceitam ronrons?", s1=72, c1="#3F6FB0"),
         card(fade(t, 7.7, 9.3), "Então vai tudo", "ao chão.", s1=70, s2=70),
         '</g>',
