@@ -1,7 +1,7 @@
 """Vídeo 'Dia 2: o Mochi faz as malas' (1080x1920, 10 s, 30 fps), em loop.
 
 0-0.35 mala a abanar | 0.35 POP, ramens voam | 2.4-4.9 o que está na mala
-5.0-7.4 bilhete 1400€ / vaquinha 0€ de 3000€ | 7.5-9 'Plano B: viajar como bagagem', ramens voltam
+5.0-7.4 dinheiro para o voo: 0€ | 7.5-9 'Plano B: viajar como bagagem', ramens voltam
 9.3-10 volta ao início
 """
 import math
@@ -10,7 +10,7 @@ from mochi_cena import W, H, FONT, card, clamp, ease, fade, main, meow_open, spr
 from mochi_kit import mochi
 from musica_dia2 import MEOWS, TOTAL
 
-PRICE, META, ANGARIADO = 1400, 3000, 0
+META, ANGARIADO = 3000, 0
 S = 1.3
 CASE_L, CASE_R, CASE_TOP, CASE_BOT = 250, 830, 1330, 1620
 LID_H = 60
@@ -119,7 +119,7 @@ def frame_svg(t):
         burst(fade(t, POP_T, 1.15, 0.08, 0.3), 215, 600, "POP!", 88, r=150),
         card(title_op, "Dia 2", "O Mochi faz as malas", s1=84),
         card(fade(t, 2.4, 4.95), "Na mala do Mochi:", "8 ramens e 0 meias", s1=64),
-        card(fade(t, 5.0, 7.45), f"Bilhete: {PRICE}€", f"Vaquinha: {ANGARIADO}€ de {META}€", s1=72),
+        card(fade(t, 5.0, 7.45), "Dinheiro para o voo:", f"{ANGARIADO}€ (por enquanto)", s1=64),
         card(fade(t, 7.5, 9.3), "Plano B:", "viajar como bagagem", s1=80, s2=60),
     ]
     return svg_doc(parts)
