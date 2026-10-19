@@ -1,3 +1,4 @@
 codigo/__pycache__/
 codigo/frames_*/
 codigo/prev_*.png
+codigo/*.log
