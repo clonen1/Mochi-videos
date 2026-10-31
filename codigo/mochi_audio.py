@@ -286,15 +286,27 @@ def sfx_soft_pop(target=deg(10)):
     return pizz(midi(target), 0.25) * 0.8
 
 
-def bed(m, t0, t1, chord, root, arp=None, step=0.5, gain=1.0):
-    """Fundo simples: cordas seguradas, violoncelo no baixo e piano em arpejo calmo."""
+def contrabass(freq, dur):
+    """Contrabaixo arcado: grave redondo por baixo do violoncelo."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    p = np.cumsum(freq * (1 + 0.003 * np.sin(2 * np.pi * 4.5 * t))) / SR
+    x = np.sin(2 * np.pi * p) + 0.35 * lp(2 * (p % 1) - 1, 300, order=3)
+    return x * adsr(n, min(0.35, dur * 0.3), 0.3, 0.9, min(0.5, dur * 0.4))
+
+
+def bed(m, t0, t1, chord, root, arp=None, step=1.0, gain=1.0):
+    """Fundo lento e com graves: cordas seguradas, contrabaixo + violoncelo, piano em arpejo calmo
+    (uma nota por segundo) e a nota grave do piano no início de cada acorde."""
     d = t1 - t0
-    m.add(strings(chord, d + 0.4), t0, 0.16 * gain)
-    m.add(cello(midi(root), d + 0.3), t0, 0.22 * gain)
+    m.add(strings(chord, d + 0.5, 1100), t0, 0.15 * gain)
+    m.add(cello(midi(root + 12), d + 0.4), t0, 0.18 * gain)
+    m.add(contrabass(midi(root), d + 0.4), t0, 0.16 * gain)
+    m.add(piano(midi(root), 2.5, 0.8), t0, 0.30 * gain)
     arp = arp or sorted(chord)
     t, i = t0, 0
     while t < t1 - 0.05:
-        m.add(piano(midi(arp[i % len(arp)] + 12), 1.4, 0.55), t, 0.30 * gain)
+        m.add(piano(midi(arp[i % len(arp)]), 2.6, 0.5), t, 0.30 * gain)
         t += step
         i += 1
 

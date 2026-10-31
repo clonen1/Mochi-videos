@@ -1,5 +1,5 @@
 """Som de 'Tipos de gato quando chega a comida' (10 s, 120 BPM, Sol menor, escala In em Ré).
-Estilo suave: piano e cordas, sem bateria nem efeitos arcade.
+Estilo suave e lento (uma nota de piano por segundo), com graves de contrabaixo e violoncelo: piano e cordas, sem bateria nem efeitos arcade.
 
 0.25    a taça cai: nota grave suave | 0.3 patinhas: pizzicatos rápidos
 1.6     o educado: piano delicado | 3.6 o dramático: cordas em Mib, 2 miados (4.0 e 4.8)
@@ -32,7 +32,7 @@ m.add(celesta(midi(deg(13)), 0.8), 0.9, 0.1, "sfx")
 
 # 1.6-3.6: o educado
 bed(m, 1.6, 3.6, GM9, 43, ARP_G)
-for t, d in [(1.6, 10), (2.1, 12), (2.6, 10), (3.1, 8)]:
+for t, d in [(1.6, 10), (2.6, 8)]:
     m.add(piano(midi(deg(d)), 1.2, 0.6), t, 0.22)
 
 # 3.6-5.8: o dramático
@@ -50,8 +50,8 @@ for k in range(6):
     m.add(pizz(midi(deg(9 + k % 2)), 0.2), 6.2 + k * 0.25, 0.08, "sfx")
 
 # 7.9-9.3: e tu?
-bed(m, 7.8, 9.3, DSUS, 38, ARP_D, step=1.0)
-for t, d, dur in [(7.95, 10, 0.25), (8.2, 12, 0.25), (8.45, 13, 0.5), (8.95, 12, 0.4)]:
+bed(m, 7.8, 9.3, DSUS, 38, ARP_D, step=2.0)
+for t, d, dur in [(7.95, 10, 1.0), (8.95, 12, 1.0)]:
     m.add(piano(midi(deg(d)), dur + 0.8, 0.7), t, 0.28)
 
 # 9.3-10: volta ao início

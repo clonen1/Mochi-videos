@@ -1,5 +1,5 @@
 """Som do 'Dia 5: o Mochi treina os pauzinhos' (10 s, 120 BPM, Sol menor, escala In em Ré).
-Estilo suave: piano e cordas, sem bateria nem efeitos arcade.
+Estilo suave e lento (uma nota de piano por segundo), com graves de contrabaixo e violoncelo: piano e cordas, sem bateria nem efeitos arcade.
 
 0-2     piano em arpejo e cordas | 0.35 a massa voa: harpa a subir | 1.3 cai: nota grave + miado
 2-4     acorde de Mib, pizzicatos (pauzinhos a tremer) | 3.0 um pauzinho foge: harpa
@@ -30,8 +30,8 @@ m.add(sfx_meow(), MEOWS[0], 0.5, "sfx")
 
 # 2-4: tentativa 2
 bed(m, 2.0, 4.0, EBMAJ7, 39, ARP_EB)
-for k in range(8):
-    m.add(pizz(midi(deg(11 + k % 2)), 0.25), 2.2 + k * 0.09, 0.08, "sfx")
+for k in range(4):
+    m.add(pizz(midi(deg(11 + k % 2)), 0.3), 2.2 + k * 0.18, 0.08, "sfx")
 m.add(harp_gliss([deg(d) for d in range(8, 16)], 0.04, 0.9), 3.0, 0.14, "sfx")
 
 # 4-6.5: plano B, cara na taça
@@ -41,10 +41,10 @@ for t in (4.5, 5.0, 5.5, 6.0):
     m.add(pizz(midi(deg(2)), 0.3), t + 0.12, 0.10, "sfx")
 
 # 6.5-9: aprovado (melodia simples no piano)
-bed(m, 6.5, 9.0, DSUS, 38, ARP_D, step=1.0)
+bed(m, 6.5, 9.0, DSUS, 38, ARP_D, step=2.0)
 m.add(celesta(midi(deg(15)), 1.0), 6.5, 0.12, "sfx")
 m.add(sfx_meow(), MEOWS[1], 0.45, "sfx")
-for t, d, dur in [(7.0, 8, 0.5), (7.5, 10, 0.5), (8.0, 12, 1.0), (8.5, 10, 0.5)]:
+for t, d, dur in [(7.0, 8, 1.0), (8.0, 10, 1.5)]:
     m.add(piano(midi(deg(d)), dur + 0.8, 0.7), t, 0.28)
 
 # 9-10: volta ao início

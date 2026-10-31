@@ -1,5 +1,5 @@
 """Som de 'Quantos ramens custa ir ao Japão?' (10 s, 120 BPM, Sol menor, escala In em Ré).
-Estilo suave: piano e cordas, sem bateria, sem bips arcade.
+Estilo suave e lento (uma nota de piano por segundo), com graves de contrabaixo e violoncelo: piano e cordas, sem bateria, sem bips arcade.
 
 0-2     teclas da calculadora = pizzicatos leves no tempo | 2-4 mais rápidos, cordas a crescer
 4.0     a calculadora rebenta: nota grave + miado de susto | 5.6 'MUITOS ramens': cordas em Mib
@@ -32,11 +32,11 @@ def keys(t0, t1, step):
 
 # 0-2: a fazer contas
 bed(m, 0.0, 2.0, GM9, 43, ARP_G)
-keys(0.0, 2.0, 1 / 6)
+keys(0.0, 2.0, 1 / 3)
 
 # 2-4: as contas fogem
-bed(m, 2.0, 4.0, EBMAJ7, 39, ARP_EB, step=0.25, gain=0.9)
-keys(2.0, 4.0, 1 / 10)
+bed(m, 2.0, 4.0, EBMAJ7, 39, ARP_EB, gain=0.9)
+keys(2.0, 4.0, 1 / 5)
 m.add(strings([63, 67, 70], 2.0, 2000), 2.0, 0.10)
 
 # 4.0: a calculadora desiste
@@ -48,19 +48,19 @@ m.add(cello(midi(38), 1.6), 4.0, 0.22)
 # 5.6-7.4: MUITOS ramens
 m.add(strings(EBMAJ7, 1.9, 1100), 5.6, 0.2)
 m.add(cello(midi(39), 1.8), 5.6, 0.24)
-for t, d in [(5.8, 12), (6.3, 11), (6.8, 10)]:
+for t, d in [(5.8, 12), (6.8, 10)]:
     m.add(piano(midi(deg(d)), 1.2, 0.6), t, 0.24)
 
 # 7.4-9.4: o plano
 m.add(celesta(midi(deg(15)), 1.0), 7.4, 0.12, "sfx")
 m.add(sfx_meow(), MEOWS[1], 0.45, "sfx")
-bed(m, 7.4, 9.4, DSUS, 38, ARP_D, step=1.0)
-for t, d, dur in [(7.75, 8, 0.25), (8.0, 10, 0.25), (8.25, 12, 0.5), (8.75, 10, 0.25), (9.0, 8, 0.4)]:
+bed(m, 7.4, 9.4, DSUS, 38, ARP_D, step=2.0)
+for t, d, dur in [(7.75, 8, 1.0), (8.75, 10, 1.0)]:
     m.add(piano(midi(deg(d)), dur + 0.8, 0.7), t, 0.28)
 
 # 9.4-10: volta às contas (liga ao início)
 bed(m, 9.4, 10.0, GM9, 43, ARP_G)
-keys(9.5, 10.0, 1 / 6)
+keys(9.4, 10.0, 1 / 3)
 
 if __name__ == "__main__":
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "musica_contas.wav")
