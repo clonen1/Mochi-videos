@@ -94,3 +94,85 @@ def bat(t, phase=0.0):
         f'<polygon points="-12,-14 -6,-30 0,-16 6,-30 12,-14" fill="#2B2238"/>'
         f'<circle cx="-6" cy="-4" r="3" fill="#FFD84D"/><circle cx="6" cy="-4" r="3" fill="#FFD84D"/>'
     )
+
+
+# ---------- semana de 02/11 ----------
+
+def ramen_bowl():
+    """Taça de ramen vermelha com massa, ovo e naruto, cerca de 340x170."""
+    return (
+        f'<ellipse cx="0" cy="-40" rx="160" ry="34" fill="#E9B65A"/>'
+        f'<path d="M-120 -48 q20 -16 40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#F6D77A" stroke-width="9" stroke-linecap="round"/>'
+        f'<ellipse cx="-70" cy="-50" rx="34" ry="20" fill="#FFFFFF" stroke="{INK}" stroke-width="4"/>'
+        f'<ellipse cx="-70" cy="-50" rx="15" ry="11" fill="#F6B93B"/>'
+        f'<circle cx="70" cy="-50" r="24" fill="#FFFFFF" stroke="{INK}" stroke-width="4"/>'
+        f'<path d="M58 -50 q6 -10 12 0 t12 0" fill="none" stroke="#E77C8A" stroke-width="5" stroke-linecap="round"/>'
+        f'<path d="M-170 -40 L170 -40 Q160 90 0 110 Q-160 90 -170 -40 Z" fill="#D8343A" stroke="{INK}" stroke-width="6" stroke-linejoin="round"/>'
+        f'<path d="M-120 20 l30 0 l0 25 l30 0 M60 20 l30 0 l0 25 l30 0" fill="none" stroke="#FFFFFF" stroke-width="6"/>'
+        f'<rect x="-60" y="102" width="120" height="20" rx="8" fill="#B8262C" stroke="{INK}" stroke-width="5"/>'
+    )
+
+
+def noodles():
+    """Novelo de massa a voar (ou em cima da cabeça), cerca de 180x90."""
+    out = ""
+    for i, (dy, a) in enumerate([(-25, 0), (-5, 6), (15, -4), (35, 3)]):
+        out += (f'<path d="M-80 {dy} q20 -18 40 0 t40 0 t40 0 t40 0" fill="none" stroke="#E9B65A" '
+                f'stroke-width="16" stroke-linecap="round" transform="rotate({a})"/>'
+                f'<path d="M-80 {dy} q20 -18 40 0 t40 0 t40 0 t40 0" fill="none" stroke="#F6D77A" '
+                f'stroke-width="7" stroke-linecap="round" transform="rotate({a})"/>')
+    out += (f'<path d="M-60 40 q-10 30 -5 55 M50 40 q12 28 6 58" fill="none" stroke="#E9B65A" stroke-width="12" stroke-linecap="round"/>')
+    return out
+
+
+def chopstick(length=330):
+    """Pauzinho de madeira, de (0,0) até (length,0)."""
+    return (f'<path d="M0 -9 L{length} -4 L{length} 4 L0 9 Z" fill="#C98B4E" stroke="{INK}" stroke-width="4" stroke-linejoin="round"/>'
+            f'<rect x="0" y="-9" width="60" height="18" fill="#8E5A2E"/>')
+
+
+def paw():
+    """Patinha do Mochi (laranja com almofada creme)."""
+    return (f'<ellipse cx="0" cy="0" rx="36" ry="30" fill="#F2A14A" stroke="#D9802C" stroke-width="4"/>'
+            f'<ellipse cx="0" cy="6" rx="18" ry="13" fill="#FFF6EA"/>')
+
+
+def headband():
+    """Bandana de ninja no espaço do Mochi (380x400)."""
+    return (f'<path d="M96 128 Q190 100 284 128 L282 152 Q190 126 98 152 Z" fill="#2B2B2B"/>'
+            f'<path d="M284 136 Q320 130 340 150 M284 146 Q316 158 330 182" fill="none" stroke="#2B2B2B" stroke-width="10" stroke-linecap="round"/>'
+            f'<rect x="170" y="112" width="40" height="22" rx="4" fill="#B9C2CC"/>')
+
+
+def calculator(screen="", shake=0.0):
+    """Calculadora grande, cerca de 420x560. screen: texto do visor."""
+    keys = ""
+    labels = ["7", "8", "9", "÷", "4", "5", "6", "×", "1", "2", "3", "−", "C", "0", "=", "+"]
+    for i, lab in enumerate(labels):
+        r, c = divmod(i, 4)
+        x, y = -165 + c * 85, -60 + r * 85
+        col = "#F28C28" if c == 3 else ("#D8343A" if lab == "C" else "#FFFFFF")
+        keys += (f'<rect x="{x}" y="{y}" width="70" height="70" rx="16" fill="{col}" stroke="{INK}" stroke-width="4"/>'
+                 f'<text x="{x + 35}" y="{y + 49}" font-family="DejaVu Sans" font-weight="bold" font-size="38" '
+                 f'fill="{INK}" text-anchor="middle">{lab}</text>')
+    return (f'<g transform="rotate({shake:.1f})">'
+            f'<rect x="-210" y="-280" width="420" height="580" rx="40" fill="#4A5568" stroke="{INK}" stroke-width="7"/>'
+            f'<rect x="-175" y="-245" width="350" height="150" rx="18" fill="#C8E6B0" stroke="{INK}" stroke-width="5"/>'
+            f'{screen}{keys}</g>')
+
+
+def mini_ramen():
+    """Ícone de ramen pequeno para o visor (cerca de 60x40)."""
+    return (f'<path d="M-30 -6 L30 -6 Q28 18 0 22 Q-28 18 -30 -6 Z" fill="#D8343A" stroke="{INK}" stroke-width="3"/>'
+            f'<path d="M-20 -10 q5 -6 10 0 t10 0 t10 0 t10 0" fill="none" stroke="#E9B65A" stroke-width="4"/>'
+            f'<path d="M8 -12 L26 -34 M14 -10 L32 -30" stroke="#8E5A2E" stroke-width="3" stroke-linecap="round"/>')
+
+
+def smoke(op, x, y, r=60):
+    """Nuvem de fumo cinzenta."""
+    if op <= 0:
+        return ""
+    return (f'<g opacity="{op:.2f}" fill="#B9B9B9" stroke="{INK}" stroke-width="4">'
+            f'<circle cx="{x - r * 0.7:.0f}" cy="{y + r * 0.2:.0f}" r="{r * 0.7:.0f}"/>'
+            f'<circle cx="{x + r * 0.7:.0f}" cy="{y + r * 0.2:.0f}" r="{r * 0.75:.0f}"/>'
+            f'<circle cx="{x:.0f}" cy="{y - r * 0.3:.0f}" r="{r:.0f}"/></g>')
