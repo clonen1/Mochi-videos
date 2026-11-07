@@ -4,3 +4,8 @@ codigo/prev_*.png
 codigo/*.log
 codigo/*.wav
 codigo/*.mp4
+codigo/sf/
+codigo/frames_trabalhos/
+codigo/sheet*.png
+codigo/render.log
+codigo/test_real.wav
