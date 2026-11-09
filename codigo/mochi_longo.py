@@ -1,10 +1,29 @@
 """Utilitários e adereços para os vídeos longos do Mochi (1920x1080, 24 fps)."""
 import math
+import os
 
 from mochi_kit import RED, RED_DARK, mochi
 
 W, H, FPS = 1920, 1080, 24
-FONT = "DejaVu Sans"
+LANG = os.environ.get("MOCHI_LANG", "pt")
+FONT = "Noto Sans CJK SC" if LANG == "zh" else "DejaVu Sans"
+ZH = {
+    "O mealheiro está vazio": "存钱罐空了", "Vou arranjar um emprego!": "我要去找工作！",
+    "Que cheirinho...": "好香啊...", "Ninguém está a ver...": "没人在看...", "A encomenda sumiu": "包裹不见了",
+    "Um café a sair...": "来一杯咖啡...", "Gatos e canecas...": "猫和杯子...",
+    "Noite tranquila...": "安静的夜晚...", "Só uma sonequinha...": "只打个小盹...", "O troféu sumiu!": "奖杯不见了！",
+    "3 empregos. 0€.": "3份工作，0欧元。", "E se eu pedisse ajuda?": "要不我求助一下？",
+    "Cada ajuda conta": "每一份帮助都算数", "E o Japão fica mais perto": "日本就更近了",
+    "Entregador": "快递员", "Barista": "咖啡师", "Segurança": "保安", "CAFÉ": "咖啡",
+    "Ajuda o Mochi": "帮Mochi", "a chegar ao Japão": "去日本", "Link na descrição": "谢谢观看",
+    "gofund.me/5d9e87b27": "关注 Mochi",
+}
+
+
+def tr(txt):
+    return ZH.get(txt, txt) if LANG == "zh" else txt
+
+
 INK = "#2B2B2B"
 SCARF = (f'<rect x="112" y="228" width="156" height="24" rx="12" fill="{RED}"/>'
          f'<rect x="200" y="240" width="22" height="48" rx="8" fill="{RED_DARK}"/>')
@@ -82,6 +101,7 @@ def drool(t):
 def caption(op, txt, y=1012, size=62):
     if op <= 0.01:
         return ""
+    txt = tr(txt)
     w = max(520, len(txt) * size * 0.60 + 130)
     return (f'<g opacity="{op:.2f}" transform="translate(0,{(1 - op) * 18:.0f})">'
             f'<rect x="{(W - w) / 2:.0f}" y="{y - size - 14}" width="{w:.0f}" height="{size + 48}" rx="28" fill="#1E1B2E" opacity="0.9"/>'

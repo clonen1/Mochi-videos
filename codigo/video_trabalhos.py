@@ -11,7 +11,7 @@ from multiprocessing import Pool
 
 import cairosvg
 
-from mochi_longo import (APRON, CAP, GUARD_CAP, H, W, FPS, FONT, INK, M, bubble, bulb, burst, caption, clamp, clock, coin,
+from mochi_longo import (LANG, tr, APRON, CAP, GUARD_CAP, H, W, FPS, FONT, INK, M, bubble, bulb, burst, caption, clamp, clock, coin,
                          cam, delivery_box, drool, ease, ease_out, fade, fish_icon, lerp, mug, pay, person, petals, phone,
                          piggy_svg, poster, smell, spring, sparkle, stamp, steam, sunrise_sky, torii, trophy, walk_bob, zzz)
 from mochi_props import moth
@@ -55,8 +55,8 @@ def title_card(lt, n, name, c1, c2, icon):
             f'<g transform="translate({-900 * (1 - min(a, 1)):.0f},0)"><circle cx="380" cy="470" r="150" fill="#FFF6EA" stroke="{INK}" stroke-width="10"/>'
             f'<text x="380" y="530" font-family="{FONT}" font-weight="bold" font-size="190" fill="#D8343A" text-anchor="middle">{n}</text></g>'
             f'<g transform="translate({-900 * (1 - min(b, 1)):.0f},0)"><text x="620" y="440" font-family="{FONT}" font-weight="bold" font-size="76" fill="#FFF6EA" '
-            f'stroke="{INK}" stroke-width="3">Emprego {n}</text>'
-            f'<text x="620" y="570" font-family="{FONT}" font-weight="bold" font-size="120" fill="#FFFFFF" stroke="{INK}" stroke-width="5">{name}</text></g>'
+            f'stroke="{INK}" stroke-width="3">{"工作" + str(n) if LANG == "zh" else "Emprego " + str(n)}</text>'
+            f'<text x="620" y="570" font-family="{FONT}" font-weight="bold" font-size="120" fill="#FFFFFF" stroke="{INK}" stroke-width="5">{tr(name)}</text></g>'
             f'<g transform="translate(1560,520) scale({max(ic, 0.001):.2f})">{icon}</g></g>')
 
 
@@ -249,7 +249,7 @@ def cafe_bg(lt):
         out += (f'<g transform="translate({140 + i * 200},{150})">{mug(1.0, 0.5)}</g>' if i % 2 == 0 else
                 f'<g transform="translate({140 + i * 200},{330})">{mug(0.0, 0.5)}</g>')
     out += (f'<rect y="{FLOOR2 - 90}" width="{W}" height="{H - FLOOR2 + 90}" fill="#C7A27C"/><rect x="1500" y="440" width="260" height="190" rx="14" fill="#6F4E37" stroke="{INK}" stroke-width="6"/>'
-            f'<text x="1630" y="560" font-family="{FONT}" font-weight="bold" font-size="76" fill="#FFF6EA" text-anchor="middle">CAFÉ</text>')
+            f'<text x="1630" y="560" font-family="{FONT}" font-weight="bold" font-size="76" fill="#FFF6EA" text-anchor="middle">{tr("CAFÉ")}</text>')
     return out
 
 
@@ -514,11 +514,11 @@ def s_fim(lt):
     if t >= T["cartao"]:
         op = ease((t - T["cartao"]) / 0.6)
         out += (f'<g opacity="{op:.2f}"><rect width="{W}" height="{H}" fill="#1E1B2E" opacity="0.86"/>'
-                f'<text x="960" y="360" font-family="{FONT}" font-weight="bold" font-size="96" fill="#FFF6EA" text-anchor="middle">Ajuda o Mochi</text>'
-                f'<text x="960" y="470" font-family="{FONT}" font-weight="bold" font-size="80" fill="#F6C343" text-anchor="middle">a chegar ao Japão</text>'
+                f'<text x="960" y="360" font-family="{FONT}" font-weight="bold" font-size="96" fill="#FFF6EA" text-anchor="middle">{tr("Ajuda o Mochi")}</text>'
+                f'<text x="960" y="470" font-family="{FONT}" font-weight="bold" font-size="80" fill="#F6C343" text-anchor="middle">{tr("a chegar ao Japão")}</text>'
                 f'<rect x="560" y="550" width="800" height="112" rx="56" fill="#D8343A"/>'
-                f'<text x="960" y="628" font-family="{FONT}" font-weight="bold" font-size="58" fill="#FFFFFF" text-anchor="middle">{VAQUINHA}</text>'
-                f'<text x="960" y="760" font-family="{FONT}" font-size="50" fill="#FFF6EA" text-anchor="middle">Link na descrição</text></g>')
+                f'<text x="960" y="628" font-family="{FONT}" font-weight="bold" font-size="58" fill="#FFFFFF" text-anchor="middle">{tr(VAQUINHA)}</text>'
+                f'<text x="960" y="760" font-family="{FONT}" font-size="50" fill="#FFF6EA" text-anchor="middle">{tr("Link na descrição")}</text></g>')
         out += M(t, 1650, 1040, 1.1, "happy", op=op, mouth=meow(t))
     return out
 
@@ -555,7 +555,8 @@ def frame_svg(t):
 
 
 DIR = os.path.dirname(os.path.abspath(__file__))
-FRAMES = os.path.join(DIR, "frames_trabalhos")
+SUF = "_zh" if LANG == "zh" else ""
+FRAMES = os.path.join(DIR, "frames_trabalhos" + SUF)
 
 
 def render_one(n):
@@ -572,7 +573,7 @@ if __name__ == "__main__":
     os.makedirs(FRAMES, exist_ok=True)
     with Pool(2) as pool:
         pool.map(render_one, range(int(FPS * TOTAL)), chunksize=48)
-    out = os.path.join(DIR, "mochi_trabalhos.mp4")
+    out = os.path.join(DIR, "mochi_trabalhos" + SUF + ".mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(FRAMES, "f%05d.png"),
                     "-i", os.path.join(DIR, "musica_trabalhos.wav"), "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p",
                     "-crf", "20", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out], check=True)
