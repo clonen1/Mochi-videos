@@ -26,7 +26,7 @@ SWIM_CAP = ('<path d="M104 130 Q190 30 276 130 Q190 112 104 130 Z" fill="#4FA3D9
 def meow(t):
     for t0 in MEOWS:
         if t0 <= t <= t0 + 0.55:
-            return math.sin(math.pi * (t - t0) / 0.55) ** 0.8
+            return max(0.0, math.sin(math.pi * (t - t0) / 0.55)) ** 0.8
     return 0.0
 
 
