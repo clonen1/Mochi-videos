@@ -17,6 +17,11 @@ ZH = {
     "Entregador": "快递员", "Barista": "咖啡师", "Segurança": "保安", "CAFÉ": "咖啡",
     "Ajuda o Mochi": "帮Mochi", "a chegar ao Japão": "去日本", "Link na descrição": "谢谢观看",
     "gofund.me/5d9e87b27": "关注 Mochi",
+    "Vou ser campeão!": "我要当冠军！", "Água?!": "水？！", "O Mochi não gosta de água": "Mochi不喜欢水",
+    "Algo a voar...": "有东西在飞...", "Golo! ...não viu.": "进球了！...他没看见。", "Muito pesado": "太重了",
+    "Isto sim é desporto": "这才是运动", "3 desportos. 0 medalhas.": "3项运动，0枚奖牌。",
+    "Campeão de sesta": "午睡冠军", "ELIMINADO": "淘汰", "Natação": "游泳", "Futebol": "足球", "Ginásio": "健身房",
+    "Desporto": "运动",
 }
 
 
