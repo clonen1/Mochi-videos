@@ -34,13 +34,13 @@ def _tail(s, o):
     """Cauda fina de largura uniforme: contorno, miolo, listras, ponta creme e brilho."""
     W = 17
     d = "M262 306 C308 326 350 300 338 256 C333 240 320 230 307 234"
-    tip = "M323.8 236.4 C318.7 233.2 312.9 232.2 307 234"
+    tip = "M327.1 238.8 C321.3 233.8 314.1 231.8 307 234"
     out = ""
     if s["outline"]:
         out += f'<path d="{d}" fill="none" stroke="{s["outline"]}" stroke-width="{W + 2 * s["ow"]}" stroke-linecap="round" stroke-linejoin="round"/>'
     out += f'<path d="{d}" fill="none" stroke="{s["c2"]}" stroke-width="{W}" stroke-linecap="round"/>'
     out += f'<path d="{d}" fill="none" stroke="{s["c3"]}" stroke-width="{W}" stroke-dasharray="6 14" stroke-dashoffset="-14"/>'
-    out += f'<path d="{tip}" fill="none" stroke="#FFF6EA" stroke-width="{W + 1}" stroke-linecap="butt"/><circle cx="307" cy="234" r="{(W + 1) / 2}" fill="#FFF6EA"/>'
+    out += f'<path d="{tip}" fill="none" stroke="#FFF6EA" stroke-width="{W + 1}" stroke-linecap="butt"/><circle cx="307" cy="234" r="{(W + 1) / 2}" fill="#FFF6EA"/><path d="M332.8 232.0 Q334.1 244.5 321.5 245.5 L319.2 243.6 L330.5 230.1 Z" fill="#FFF6EA"/>'
     return out
 
 
