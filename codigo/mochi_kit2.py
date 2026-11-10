@@ -69,9 +69,9 @@ def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0
 <ellipse cx="190" cy="168" rx="93" ry="83" fill="url(#gb)"/>
 <ellipse cx="190" cy="232" rx="86" ry="22" fill="#8A4A1E" opacity="{shade*0.18:.2f}"/>
 {rim}
-<path d="M175 97 Q180 111 172 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<path d="M190 95 Q192 112 190 126" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<path d="M205 97 Q200 111 208 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<path d="M175 88 Q181 108 172 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<path d="M190 86 Q193 110 190 126" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<path d="M205 88 Q199 108 208 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
 <ellipse cx="190" cy="168" rx="93" ry="83" fill="none" {o}/>
 {angry}
 <ellipse cx="148" cy="160" rx="34" ry="30" fill="url(#gc)"/>
