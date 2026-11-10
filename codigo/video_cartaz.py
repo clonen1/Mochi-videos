@@ -71,7 +71,7 @@ def frame_svg(t):
         parts.append(f'<g opacity="{zop:.2f}">{zzz(t, 520, 1150, 3, 70)}</g>')
     parts += [
         burst(fade(t, 2.7, 3.5, 0.05, 0.25), 360, 760, "PAF!", 100, r=170),
-        card(fade(t, 0.2, 2.6, 0.3, 0.2), "Eu a dormir 10 min", y=170, s1=76),
+        card(fade(t, 0.0, 2.6, 0.04, 0.2), "Eu a dormir 10 min", y=170, s1=76),
         card(fade(t, 2.8, 5.1, 0.2, 0.2), "O dono:", "perdeu-se!", y=170, s1=76, s2=88),
         card(fade(t, 5.3, 7.5, 0.2, 0.2), "Eu:", "estava aqui.", y=170, s1=76, s2=88),
         end_card(fade(t, 7.6, 9.4, 0.3, 0.3)),
