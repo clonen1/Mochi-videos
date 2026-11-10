@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 import cairosvg
+from mochi_kit import MOCHI_VF
 
 W, H, FPS = 1080, 1920, 30
 FONT = "DejaVu Sans"
@@ -84,6 +85,6 @@ def main(name, frame_svg, total):
     out = os.path.join(DIR, f"mochi_{name}.mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS),
                     "-i", os.path.join(frames, "f%04d.png"), "-i", os.path.join(DIR, f"musica_{name}.wav"),
-                    "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "19", "-c:a", "aac", "-b:a", "192k",
+                    "-vf", MOCHI_VF, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "19", "-c:a", "aac", "-b:a", "192k",
                     "-shortest", out], check=True)
     print(out)

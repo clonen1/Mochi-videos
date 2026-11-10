@@ -5,6 +5,7 @@ casa (0-10) | caixa (10-28) | cesto (28-46) | site e cartaz (46-66) | cortina e 
 import math
 import os
 import subprocess
+from mochi_kit import MOCHI_VF
 import sys
 from multiprocessing import Pool
 
@@ -470,6 +471,6 @@ if __name__ == "__main__":
         pool.map(render_one, range(int(FPS * TOTAL)), chunksize=48)
     out = os.path.join(DIR, "mochi_desaparecido.mp4")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(FRAMES, "f%05d.png"),
-                    "-i", os.path.join(DIR, "musica_desaparecido.wav"), "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p",
+                    "-i", os.path.join(DIR, "musica_desaparecido.wav"), "-vf", MOCHI_VF, "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p",
                     "-crf", "20", "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out], check=True)
     print(out)

@@ -81,7 +81,7 @@ def _headphones():
     )
 
 
-def mochi(expr="normal", blink=False, headphones=False, mouth_open=0.0):
+def mochi_antigo(expr="normal", blink=False, headphones=False, mouth_open=0.0):
     """Devolve o Mochi como grupo SVG num espaco de 380x400."""
     blush_op = "1" if expr != "angry" else "0"
     angry_tint = '<ellipse cx="190" cy="140" rx="90" ry="40" fill="#E5533D" opacity="0.18"/>' if expr == "angry" else ""
@@ -108,3 +108,16 @@ def mochi(expr="normal", blink=False, headphones=False, mouth_open=0.0):
 <rect x="112" y="228" width="156" height="24" rx="12" fill="{RED}"/><rect x="200" y="240" width="22" height="48" rx="8" fill="{RED_DARK}"/>
 {_headphones() if headphones else ""}
 """
+
+
+# Filtro final do ffmpeg: vinheta leve e grão fino (luz de cena)
+MOCHI_VF = "vignette=PI/10,noise=alls=3:allf=t"
+
+
+def mochi(expr="normal", blink=False, headphones=False, mouth_open=0.0):
+    """Mochi com o visual novo (estilo B, ver mochi_kit2). MOCHI_VISUAL=antigo volta ao desenho antigo."""
+    import os
+    if os.environ.get("MOCHI_VISUAL") == "antigo":
+        return mochi_antigo(expr, blink, headphones, mouth_open)
+    from mochi_kit2 import mochi2
+    return mochi2("B", expr, blink, headphones, mouth_open)
