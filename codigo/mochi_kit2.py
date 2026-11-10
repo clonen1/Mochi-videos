@@ -36,7 +36,7 @@ _W = 17
 _SEG1 = [(262, 306), (308, 326), (350, 300), (338, 256)]
 _SEG2 = [(338, 256), (333, 240), (320, 230), (307, 234)]
 _PATH = "M262 306 C308 326 350 300 338 256 C333 240 320 230 307 234"
-_ANGLE = 28      # inclinacao do corte da ponta branca (graus)
+_ANGLE = 11.2      # inclinacao do corte da ponta branca (graus)
 _BULGE = 3.4     # arredondamento do corte
 
 
@@ -110,7 +110,7 @@ def _tail(s, o):
     if s["outline"]:
         out += f'<path d="{_PATH}" fill="none" stroke="{s["outline"]}" stroke-width="{_W + 2 * s["ow"]}" stroke-linecap="round" stroke-linejoin="round"/>'
     out += f'<path d="{_PATH}" fill="none" stroke="{s["c2"]}" stroke-width="{_W}" stroke-linecap="round"/>'
-    out += f'<path d="{_PATH}" fill="none" stroke="{s["c3"]}" stroke-width="{_W}" stroke-dasharray="6 30" stroke-dashoffset="-18"/>'
+    out += f'<path d="{_PATH}" fill="none" stroke="{s["c3"]}" stroke-width="{_W}" stroke-dasharray="6 30" stroke-dashoffset="-34"/>'
     out += _CREAM
     return out
 
