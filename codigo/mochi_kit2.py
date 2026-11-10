@@ -31,8 +31,8 @@ def _shadow():
 
 
 def _tail(s, o):
-    body = ("M262 320 C312 344 364 314 348 258 C341 235 324 221 304 226 "
-            "C297 229 297 239 306 243 C316 248 321 260 318 275 C313 294 290 299 262 297 Z")
+    body = ("M262 320 C310 341 358 312 345 259 C339 237 323 223 304 227 "
+            "C298 230 298 238 306 242 C315 247 319 259 316 273 C311 291 290 296 262 295 Z")
     return f"""<defs><clipPath id="tc"><path d="{body}"/></clipPath>
 <linearGradient id="tg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="{s['c3']}"/><stop offset="0.5" stop-color="{s['c2']}"/><stop offset="1" stop-color="{s['c1']}"/></linearGradient></defs>
 <path d="{body}" fill="url(#tg)" {o}/>
@@ -66,13 +66,13 @@ def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0
 <g {head}>
 <polygon points="108,135 118,58 168,105" fill="url(#gb)" {o}/><polygon points="272,135 262,58 212,105" fill="url(#gb)" {o}/>
 <polygon points="120,118 125,78 152,105" fill="url(#ge)"/><polygon points="260,118 255,78 228,105" fill="url(#ge)"/>
-<ellipse cx="190" cy="168" rx="93" ry="83" fill="url(#gb)"/>
+<ellipse cx="190" cy="168" rx="93" ry="80" fill="url(#gb)"/>
 <ellipse cx="190" cy="232" rx="86" ry="22" fill="#8A4A1E" opacity="{shade*0.18:.2f}"/>
 {rim}
-<path d="M175 88 Q181 108 172 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<path d="M190 86 Q193 110 190 126" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<path d="M205 88 Q199 108 208 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<ellipse cx="190" cy="168" rx="93" ry="83" fill="none" {o}/>
+<path d="M175 90 Q181 109 172 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<path d="M190 88 Q193 110 190 126" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<path d="M205 90 Q199 109 208 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
+<ellipse cx="190" cy="168" rx="93" ry="80" fill="none" {o}/>
 {angry}
 <ellipse cx="148" cy="160" rx="34" ry="30" fill="url(#gc)"/>
 <ellipse cx="190" cy="200" rx="48" ry="32" fill="url(#gc)"/>
