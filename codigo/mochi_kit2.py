@@ -30,17 +30,88 @@ def _shadow():
     return out
 
 
+import math
+
+_W = 17
+_SEG1 = [(262, 306), (308, 326), (350, 300), (338, 256)]
+_SEG2 = [(338, 256), (333, 240), (320, 230), (307, 234)]
+_PATH = "M262 306 C308 326 350 300 338 256 C333 240 320 230 307 234"
+_ANGLE = 28      # inclinacao do corte da ponta branca (graus)
+_BULGE = 3.4     # arredondamento do corte
+
+
+def _bez(P, t):
+    u = 1 - t
+    return (u**3 * P[0][0] + 3 * u * u * t * P[1][0] + 3 * u * t * t * P[2][0] + t**3 * P[3][0],
+            u**3 * P[0][1] + 3 * u * u * t * P[1][1] + 3 * u * t * t * P[2][1] + t**3 * P[3][1])
+
+
+def _dbez(P, t):
+    u = 1 - t
+    return (3 * u * u * (P[1][0] - P[0][0]) + 6 * u * t * (P[2][0] - P[1][0]) + 3 * t * t * (P[3][0] - P[2][0]),
+            3 * u * u * (P[1][1] - P[0][1]) + 6 * u * t * (P[2][1] - P[1][1]) + 3 * t * t * (P[3][1] - P[2][1]))
+
+
+def _build_tail_geometry():
+    pts = [(_bez(_SEG1, i / 40), _dbez(_SEG1, i / 40)) for i in range(41)]
+    pts += [(_bez(_SEG2, i / 40), _dbez(_SEG2, i / 40)) for i in range(1, 41)]
+    h = _W / 2
+    left, right = [], []
+    for (x, y), (dx, dy) in pts:
+        n = math.hypot(dx, dy) or 1
+        nx, ny = -dy / n, dx / n
+        left.append((x + nx * h, y + ny * h))
+        right.append((x - nx * h, y - ny * h))
+    ex, ey = _SEG2[3]
+    # corte oblíquo e arredondado da ponta branca, a ~50% do segmento final
+    t = 0.5
+    mx, my = _bez(_SEG2, t)
+    dx, dy = _dbez(_SEG2, t)
+    n = math.hypot(dx, dy)
+    dx, dy = dx / n, dy / n          # tangente (para a ponta)
+    nx, ny = -dy, dx
+    sh = h * math.tan(math.radians(_ANGLE))
+    A = (mx + nx * h + dx * sh, my + ny * h + dy * sh)
+    B = (mx - nx * h - dx * sh, my - ny * h - dy * sh)
+    exx, eyy = A[0] - B[0], A[1] - B[1]
+    el = math.hypot(exx, eyy)
+    ex_, ey_ = exx / el, eyy / el
+    px, py = -ey_, ex_
+    if px * dx + py * dy < 0:
+        px, py = -px, -py
+    mid = ((A[0] + B[0]) / 2, (A[1] + B[1]) / 2)
+    c = (mid[0] - px * 2 * _BULGE, mid[1] - py * 2 * _BULGE)
+    big = 60
+    half = (f"M{A[0]:.1f} {A[1]:.1f} Q{c[0]:.1f} {c[1]:.1f} {B[0]:.1f} {B[1]:.1f} "
+            f"L{B[0] - ex_ * big:.1f} {B[1] - ey_ * big:.1f} "
+            f"L{B[0] - ex_ * big + px * big:.1f} {B[1] - ey_ * big + py * big:.1f} "
+            f"L{A[0] + ex_ * big + px * big:.1f} {A[1] + ey_ * big + py * big:.1f} "
+            f"L{A[0] + ex_ * big:.1f} {A[1] + ey_ * big:.1f} Z")
+    # interior da cauda desde antes do corte ate a ponta
+    L, R = [], []
+    for i in range(10, 41):
+        (x, y), (ddx, ddy) = _bez(_SEG2, i / 40), _dbez(_SEG2, i / 40)
+        m = math.hypot(ddx, ddy) or 1
+        L.append((x - ddy / m * (h - 0.2), y + ddx / m * (h - 0.2)))
+        R.append((x + ddy / m * (h - 0.2), y - ddx / m * (h - 0.2)))
+    poly = " ".join(f"{x:.1f},{y:.1f}" for x, y in L + R[::-1])
+    clip = f'<clipPath id="tailcut"><path d="{half}"/></clipPath>'
+    cream = (f'<g clip-path="url(#tailcut)"><polygon points="{poly}" fill="#FFF6EA"/>'
+             f'<circle cx="{ex}" cy="{ey}" r="{h - 0.2}" fill="#FFF6EA"/></g>')
+    return clip, cream
+
+
+_CLIP, _CREAM = _build_tail_geometry()
+
+
 def _tail(s, o):
-    """Cauda fina de largura uniforme: contorno, miolo, listras, ponta creme e brilho."""
-    W = 17
-    d = "M262 306 C308 326 350 300 338 256 C333 240 320 230 307 234"
-    tip = "M327.1 238.8 C321.3 233.8 314.1 231.8 307 234"
-    out = ""
+    """Cauda fina de largura uniforme: contorno, miolo, poucas listras e ponta creme recortada ao interior."""
+    out = _CLIP
     if s["outline"]:
-        out += f'<path d="{d}" fill="none" stroke="{s["outline"]}" stroke-width="{W + 2 * s["ow"]}" stroke-linecap="round" stroke-linejoin="round"/>'
-    out += f'<path d="{d}" fill="none" stroke="{s["c2"]}" stroke-width="{W}" stroke-linecap="round"/>'
-    out += f'<path d="{d}" fill="none" stroke="{s["c3"]}" stroke-width="{W}" stroke-dasharray="6 14" stroke-dashoffset="-14"/>'
-    out += f'<path d="{tip}" fill="none" stroke="#FFF6EA" stroke-width="{W + 1}" stroke-linecap="butt"/><circle cx="307" cy="234" r="{(W + 1) / 2}" fill="#FFF6EA"/><path d="M332.8 232.0 Q334.1 244.5 321.5 245.5 L319.2 243.6 L330.5 230.1 Z" fill="#FFF6EA"/>'
+        out += f'<path d="{_PATH}" fill="none" stroke="{s["outline"]}" stroke-width="{_W + 2 * s["ow"]}" stroke-linecap="round" stroke-linejoin="round"/>'
+    out += f'<path d="{_PATH}" fill="none" stroke="{s["c2"]}" stroke-width="{_W}" stroke-linecap="round"/>'
+    out += f'<path d="{_PATH}" fill="none" stroke="{s["c3"]}" stroke-width="{_W}" stroke-dasharray="6 30" stroke-dashoffset="-18"/>'
+    out += _CREAM
     return out
 
 
