@@ -30,6 +30,22 @@ def _shadow():
     return out
 
 
+def _tail(s, o):
+    body = ("M262 322 C318 352 376 318 356 256 C348 230 326 214 304 224 "
+            "C296 228 296 240 306 244 C318 250 326 262 322 278 C316 300 290 304 262 296 Z")
+    return f"""<defs><clipPath id="tc"><path d="{body}"/></clipPath>
+<linearGradient id="tg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="{s['c3']}"/><stop offset="0.5" stop-color="{s['c2']}"/><stop offset="1" stop-color="{s['c1']}"/></linearGradient></defs>
+<path d="{body}" fill="url(#tg)" {o}/>
+<g clip-path="url(#tc)">
+<path d="M296 300 Q312 322 340 316" fill="none" stroke="{s['c3']}" stroke-width="9" stroke-linecap="round"/>
+<path d="M322 276 Q346 296 368 282" fill="none" stroke="{s['c3']}" stroke-width="9" stroke-linecap="round"/>
+<path d="M322 246 Q346 262 366 246" fill="none" stroke="{s['c3']}" stroke-width="8" stroke-linecap="round"/>
+<path d="M296 226 Q312 214 330 224 L320 262 L292 240 Z" fill="#FFF6EA"/>
+<path d="M270 312 Q330 336 346 280" fill="none" stroke="#FFE2B0" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+</g>
+<path d="{body}" fill="none" stroke="{s['outline'] or 'none'}" stroke-width="{s['ow']}" stroke-linejoin="round"/>"""
+
+
 def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0.0):
     s = STYLES[style]
     o = f'stroke="{s["outline"]}" stroke-width="{s["ow"]}" stroke-linejoin="round"' if s["outline"] else ""
@@ -41,15 +57,12 @@ def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0
     angry = '<ellipse cx="190" cy="140" rx="90" ry="40" fill="#E5533D" opacity="0.18"/>' if expr == "angry" else ""
     blush_op = "0.9" if expr != "angry" else "0"
     return f"""{_defs(s)}{_shadow()}
-<path d="M270 330 Q340 320 330 260 Q325 230 300 240" fill="none" stroke="{s['c3']}" stroke-width="24" stroke-linecap="round"/>
-<path d="M270 330 Q340 320 330 260 Q325 230 300 240" fill="none" stroke="{s['c2']}" stroke-width="16" stroke-linecap="round"/>
-<path d="M326 276 Q330 258 316 246" fill="none" stroke="#FFF1DC" stroke-width="9" stroke-linecap="round"/>
-<rect x="262" y="235" width="48" height="62" rx="12" fill="{BAG}"/><rect x="270" y="250" width="32" height="18" rx="5" fill="{BAG_LIGHT}"/>
+{_tail(s, o)}
 <ellipse cx="190" cy="290" rx="95" ry="78" fill="url(#gb)" {o}/>
 <ellipse cx="190" cy="318" rx="80" ry="42" fill="#8A4A1E" opacity="{shade*0.22:.2f}"/>
 <ellipse cx="190" cy="305" rx="55" ry="55" fill="url(#gc)"/>
 <ellipse cx="145" cy="362" rx="28" ry="16" fill="url(#gc)" {o}/><ellipse cx="235" cy="362" rx="28" ry="16" fill="url(#gc)" {o}/>
-<path d="M126 360 L126 370 M145 362 L145 372 M164 360 L164 370" stroke="#D9B58C" stroke-width="2" stroke-linecap="round"/>
+<path d="M136 356 Q136 363 137 369 M154 356 Q154 363 153 369 M226 356 Q226 363 227 369 M244 356 Q244 363 243 369" fill="none" stroke="#C9A173" stroke-width="2.6" stroke-linecap="round"/>
 <g {head}>
 <polygon points="108,135 118,58 168,105" fill="url(#gb)" {o}/><polygon points="272,135 262,58 212,105" fill="url(#gb)" {o}/>
 <polygon points="120,118 125,78 152,105" fill="url(#ge)"/><polygon points="260,118 255,78 228,105" fill="url(#ge)"/>
@@ -59,15 +72,14 @@ def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0
 <path d="M175 92 Q180 110 172 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
 <path d="M190 90 Q192 112 190 126" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
 <path d="M205 92 Q200 110 208 122" fill="none" stroke="{s['c3']}" stroke-width="6" stroke-linecap="round"/>
-<path d="M90 176 L74 168 M92 186 L72 188 M290 176 L306 168 M288 186 L308 188" stroke="{s['c3']}" stroke-width="5" stroke-linecap="round"/>
 {angry}
 <ellipse cx="148" cy="160" rx="34" ry="30" fill="url(#gc)"/>
 <ellipse cx="190" cy="200" rx="48" ry="32" fill="url(#gc)"/>
 {_eyes(expr, blink)}
 <ellipse cx="125" cy="198" rx="15" ry="9" fill="{BLUSH}" opacity="{blush_op}"/><ellipse cx="255" cy="198" rx="15" ry="9" fill="{BLUSH}" opacity="{blush_op}"/>
-<ellipse cx="190" cy="189" rx="9" ry="6.5" fill="{NOSE}"/><ellipse cx="187" cy="187" rx="3" ry="1.8" fill="#FFD0D6"/>
+<polygon points="181.5,185.5 198.5,185.5 190,196" fill="{NOSE}" stroke="{NOSE}" stroke-width="5" stroke-linejoin="round"/><ellipse cx="187" cy="186.5" rx="3.2" ry="1.6" fill="#FFD0D6" opacity="0.9"/>
 {_mouth(expr, mouth_open)}
-<path d="M100 190 L56 182 M100 200 L58 206 M280 190 L324 182 M280 200 L322 206" stroke="#FFF1DC" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+<path d="M98 188 Q76 178 54 180 M98 197 Q76 198 56 206 M282 188 Q304 178 326 180 M282 197 Q304 198 324 206" fill="none" stroke="#FFF6EA" stroke-width="3" stroke-linecap="round" opacity="0.95"/>
 </g>
 <rect x="112" y="228" width="156" height="24" rx="12" fill="{RED}"/><rect x="112" y="228" width="156" height="9" rx="4.5" fill="#EE5A60" opacity="0.7"/><rect x="200" y="240" width="22" height="48" rx="8" fill="{RED_DARK}"/>
 {_headphones() if headphones else ""}
