@@ -31,19 +31,17 @@ def _shadow():
 
 
 def _tail(s, o):
-    body = ("M262 320 C310 341 358 312 345 259 C339 237 323 223 304 227 "
-            "C298 230 298 238 306 242 C315 247 319 259 316 273 C311 291 290 296 262 295 Z")
-    return f"""<defs><clipPath id="tc"><path d="{body}"/></clipPath>
-<linearGradient id="tg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="{s['c3']}"/><stop offset="0.5" stop-color="{s['c2']}"/><stop offset="1" stop-color="{s['c1']}"/></linearGradient></defs>
-<path d="{body}" fill="url(#tg)" {o}/>
-<g clip-path="url(#tc)">
-<path d="M296 300 Q312 322 340 316" fill="none" stroke="{s['c3']}" stroke-width="9" stroke-linecap="round"/>
-<path d="M322 276 Q346 296 368 282" fill="none" stroke="{s['c3']}" stroke-width="9" stroke-linecap="round"/>
-<path d="M322 246 Q346 262 366 246" fill="none" stroke="{s['c3']}" stroke-width="8" stroke-linecap="round"/>
-<path d="M296 226 Q312 214 330 224 L320 262 L292 240 Z" fill="#FFF6EA"/>
-<path d="M270 312 Q330 336 346 280" fill="none" stroke="#FFE2B0" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
-</g>
-<path d="{body}" fill="none" stroke="{s['outline'] or 'none'}" stroke-width="{s['ow']}" stroke-linejoin="round"/>"""
+    """Cauda fina de largura uniforme: contorno, miolo, listras, ponta creme e brilho."""
+    W = 17
+    d = "M262 306 C308 326 350 300 338 256 C333 240 320 230 307 234"
+    tip = "M329 242 C323 236 315 232 307 234"
+    out = ""
+    if s["outline"]:
+        out += f'<path d="{d}" fill="none" stroke="{s["outline"]}" stroke-width="{W + 2 * s["ow"]}" stroke-linecap="round" stroke-linejoin="round"/>'
+    out += f'<path d="{d}" fill="none" stroke="{s["c2"]}" stroke-width="{W}" stroke-linecap="round"/>'
+    out += f'<path d="{d}" fill="none" stroke="{s["c3"]}" stroke-width="{W}" stroke-dasharray="6 14" stroke-dashoffset="-14"/>'
+    out += f'<path d="{tip}" fill="none" stroke="#FFF6EA" stroke-width="{W}" stroke-linecap="round"/>'
+    return out
 
 
 def mochi2(style="A", expr="normal", blink=False, headphones=False, mouth_open=0.0):
